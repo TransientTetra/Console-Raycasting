@@ -1,4 +1,6 @@
 #include "Model.hpp"
+///////////////////////////////////////////////////////////////////////////////
+//World
 World::World(int height, int width) :
 height(height), width(width)
 {
@@ -38,3 +40,13 @@ int World::getHeight()
 
 char **World::getMap()
 {return map;}
+
+///////////////////////////////////////////////////////////////////////////////
+//Block
+bool Block::isInside(Point point)
+{
+	if (point.x >= upperleft.x && point.x <= downright.x)
+		if (point.y >= downright.y && point.y <= upperleft.y)
+			return true;
+	return false;
+}

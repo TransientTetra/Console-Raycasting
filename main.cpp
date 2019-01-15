@@ -1,4 +1,4 @@
-#include "Application.hpp"
+#include "Controller.hpp"
 int main()
 {
 	World world(5, 6);

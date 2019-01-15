@@ -1,13 +1,26 @@
-struct Point
+class Point
 {
+public:
 	float x;
 	float y;
 };
 
-struct Block
+class Ray
 {
-	struct Point upperleft;
-	struct Point downright;
+private:
+
+public:
+};
+
+class Block
+{
+private:
+	Point upperleft;
+	Point downright;
+public:
+	//takes point, checks if it lies in this block
+	//gives corresponding answer
+	bool isInside(Point point);
 };
 
 class Camera
