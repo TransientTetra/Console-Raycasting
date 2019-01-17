@@ -19,11 +19,15 @@ height(height), width(width)
 World::~World()
 {
 	for (int i = 0; i < height; ++i)
+	{
 		delete map[i];
+		delete blockArray[i];
+	}
+	delete blockArray;
 	delete map;
 }
 
-//load to constructor??
+//move function to constructor??
 void World::load(char *model, int blockSize)
 {
 	this->blockSize = blockSize;
@@ -127,7 +131,7 @@ float Camera::castRayStatic(float angle, float renderDistance)
 	angle = angle * M_PI / 180.0;
 	Point currPosition = position;
 	float step = 0.1;
-	float sum = 0;
+	float sum = 0.0;
 	float sinAngle = sin(angle);
 	float cosAngle = cos(angle);
 	do
