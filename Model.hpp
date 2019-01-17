@@ -9,13 +9,6 @@ public:
 	Point(float x, float y);
 };
 
-class Ray
-{
-private:
-
-public:
-};
-
 class Block
 {
 private:
@@ -29,21 +22,12 @@ public:
 	bool isInside(Point point);
 };
 
-class Camera
-{
-private:
-	struct Point position;
-	float angle;
-public:
-	float castRayStatic(float angle);
-	float castRayMixed(float angle);
-};
-
 class World
 {
 private:
 	char **map;
 	Block **blockArray;
+	int blockSize;
 	int height;
 	int width;
 public:
@@ -64,6 +48,8 @@ public:
 
 	int getWidth();
 
+	int getBlockSize();
+
 	//returns pointer to map
 	char **getMap();
 
@@ -79,4 +65,16 @@ public:
 ///			}
 ///		}
 ///	}
+};
+
+class Camera
+{
+private:
+	Point position;
+	float angle;
+	World *world;
+public:
+	Camera(Point position, float angle, World *world);
+	float castRayStatic(float angle, float renderDistance);
+	float castRayMixed(float angle, float renderDistance);
 };

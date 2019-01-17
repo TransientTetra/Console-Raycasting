@@ -23,9 +23,10 @@ World::~World()
 	delete map;
 }
 
-
+//load to constructor??
 void World::load(char *model, int blockSize)
 {
+	this->blockSize = blockSize;
 	int index = 0;
 	Point currentUpperleft(0, 0);
 	Point currentDownright(blockSize, blockSize);
@@ -84,6 +85,9 @@ int World::getHeight()
 char **World::getMap()
 {return map;}
 
+int World::getBlockSize()
+{return blockSize;}
+
 ///////////////////////////////////////////////////////////////////////////////
 //Point
 Point::Point(){};
@@ -113,17 +117,55 @@ bool Block::isInside(Point point)
 
 ///////////////////////////////////////////////////////////////////////////////
 //Camera
-float Camera::castRayStatic(float angle)
+Camera::Camera(Point position, float angle, World *world)
+: position(position), angle(angle), world(world)
+{}
+
+float Camera::castRayStatic(float angle, float renderDistance)
 {
-	//move this to ray?
 	angle += this->angle;
+	angle = angle * M_PI / 180.0;
 	Point currPosition = position;
 	float step = 0.1;
 	float sum = 0;
+	float sinAngle = sin(angle);
+	float cosAngle = cos(angle);
+	do
+	{
+		currPosition.x = currPosition.x + step * sinAngle;
+		currPosition.y = currPosition.y + step * cosAngle;
+		sum += step;
+		if (sum >= renderDistance)
+			return renderDistance;
+	} while(!world->isInside(currPosition));
+	sum -= step;
+	return sum;
+}
+float Camera::castRayMixed(float angle, float renderDistance)
+{
+	angle += this->angle;
+	angle = angle * M_PI / 180.0;
+	Point currPosition = position;
+	float step = world->getBlockSize();
+	float sum = 0;
+	float sinAngle = sin(angle);
+	float cosAngle = cos(angle);
 	while (1)
 	{
-		currPosition.x = step * sin(angle);
-		currPosition.y = step * cos(angle);
-		//unfinished algorithm
+		currPosition.x = currPosition.x + step * sinAngle;
+		currPosition.y = currPosition.y + step * cosAngle;
+		sum += step;
+		if (world->isInside(currPosition))
+			break;
+		if (sum >= renderDistance)
+			return renderDistance;
 	}
+	step = -0.1;
+	while (world->isInside(currPosition))
+	{
+		currPosition.x = currPosition.x + step * sinAngle;
+		currPosition.y = currPosition.y + step * cosAngle;
+		sum += step;
+	}
+	return sum;
 }
