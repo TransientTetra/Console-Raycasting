@@ -27,7 +27,7 @@ void Renderer::render(Camera *camera, float fov, float renderDistance)
 
 	for (int i = 0; i < bufferWidth; ++i)
 	{
-		float currRay = camera->castRayStatic(angle, renderDistance);
+		float currRay = camera->castRayMixed(angle, renderDistance);
 		angle -= rayAngle;
 
 		//amount of chars that need to be drawn above block in given line
@@ -42,6 +42,13 @@ void Renderer::render(Camera *camera, float fov, float renderDistance)
 			else buffer[j][i] = '#';
 		}
 	}
+}
+
+void Renderer::renderOverlay(unsigned int fps)
+{
+	std::string temp = std::to_string(fps);
+	for (int i = 0; i < temp.length(); ++i)
+		buffer[0][i] = temp[i];
 }
 
 void Renderer::drawBuffer()

@@ -1,5 +1,6 @@
 #include "Controller.hpp"
 #include <sys/ioctl.h>
+#include <chrono>
 #include <iostream>
 
 //gets current terminal's rows and cols and writes to object variables
@@ -40,11 +41,18 @@ Application::~Application()
 
 void Application::run()
 {
+	unsigned int fps = 0;
 	while(1)
 	{
-		renderer->render(camera, 60, 40);
-		renderer->drawBuffer();
-		camera->rotate(1);
-	}
+		auto start = std::chrono::system_clock::now();
 
+		renderer->render(camera, 60, 40);
+		renderer->renderOverlay(fps);
+		renderer->drawBuffer();
+		camera->rotate(0.1);
+
+		auto end = std::chrono::system_clock::now();
+		std::chrono::duration<double> elapsed = end - start;
+		fps = 1 / elapsed.count();
+	}
 }

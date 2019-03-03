@@ -2,8 +2,9 @@
 
 //todo
 //
-//how to print directly to console buffer
 //draw lines separating blocks
+//fps lock
+//overlay
 
 int main()
 {
