@@ -77,4 +77,10 @@ public:
 	Camera(Point position, float angle, World *world);
 	float castRayStatic(float angle, float renderDistance);
 	float castRayMixed(float angle, float renderDistance);
+
+	//adds angle to current angle
+	void rotate(float angle);
+	//moves camera by given dx and dy, adding it to current coords
+	void move(float dx, float dy);
+
 };

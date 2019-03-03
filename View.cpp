@@ -1,6 +1,6 @@
 #include "View.hpp"
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
 Renderer::Renderer(int height, int width)
 : bufferHeight(height), bufferWidth(width)
@@ -46,10 +46,11 @@ void Renderer::render(Camera *camera, float fov, float renderDistance)
 
 void Renderer::drawBuffer()
 {
+	erase();
 	for (int i = 0; i < bufferHeight; ++i)
 	{
 		for (int j = 0; j < bufferWidth; ++j)
-			std::cerr << buffer[i][j];
-		std::cerr << std::endl;
+			addch(buffer[i][j]);
 	}
+	refresh();
 }

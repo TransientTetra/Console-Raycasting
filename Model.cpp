@@ -145,6 +145,7 @@ float Camera::castRayStatic(float angle, float renderDistance)
 	sum -= step;
 	return sum;
 }
+
 float Camera::castRayMixed(float angle, float renderDistance)
 {
 	angle += this->angle;
@@ -172,4 +173,17 @@ float Camera::castRayMixed(float angle, float renderDistance)
 		sum += step;
 	}
 	return sum;
+}
+
+//adds angle to current angle
+void Camera::rotate(float angle)
+{
+	this->angle += angle;
+}
+
+//moves camera by given dx and dy, adding it to current coords
+void Camera::move(float dx, float dy)
+{
+	this->position.x += dx;
+	this->position.y += dy;
 }

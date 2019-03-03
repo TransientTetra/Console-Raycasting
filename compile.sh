@@ -1,3 +1,3 @@
 #!/bin/bash
 
-g++ *.cpp -o main.o
+g++ -lncurses *.cpp -o main.o
